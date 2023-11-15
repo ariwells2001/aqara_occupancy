@@ -172,13 +172,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./report.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Report</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">References</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Conclusion</span></span></a>
   </div>
 </li>
     </ul>
@@ -194,11 +188,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#data-loading" id="toc-data-loading" class="nav-link active" data-scroll-target="#data-loading"><span class="header-section-number">4.1</span> Data Loading</a></li>
   <li><a href="#baseline-modeling" id="toc-baseline-modeling" class="nav-link" data-scroll-target="#baseline-modeling"><span class="header-section-number">4.2</span> Baseline Modeling</a>
   <ul class="collapse">
-  <li><a href="#random-forest" id="toc-random-forest" class="nav-link" data-scroll-target="#random-forest"><span class="header-section-number">4.2.1</span> Random Forest</a></li>
-  <li><a href="#xgboost" id="toc-xgboost" class="nav-link" data-scroll-target="#xgboost"><span class="header-section-number">4.2.2</span> Xgboost</a></li>
-  <li><a href="#support-vector-machine" id="toc-support-vector-machine" class="nav-link" data-scroll-target="#support-vector-machine"><span class="header-section-number">4.2.3</span> Support Vector Machine</a></li>
-  <li><a href="#ridge-regression" id="toc-ridge-regression" class="nav-link" data-scroll-target="#ridge-regression"><span class="header-section-number">4.2.4</span> Ridge Regression</a></li>
-  <li><a href="#model-selection-based-on-cross-validation" id="toc-model-selection-based-on-cross-validation" class="nav-link" data-scroll-target="#model-selection-based-on-cross-validation"><span class="header-section-number">4.2.5</span> Model Selection Based on Cross-Validation</a></li>
+  <li><a href="#logistic-regression" id="toc-logistic-regression" class="nav-link" data-scroll-target="#logistic-regression"><span class="header-section-number">4.2.1</span> Logistic Regression</a></li>
+  <li><a href="#random-forest" id="toc-random-forest" class="nav-link" data-scroll-target="#random-forest"><span class="header-section-number">4.2.2</span> Random Forest</a></li>
+  <li><a href="#xgboost" id="toc-xgboost" class="nav-link" data-scroll-target="#xgboost"><span class="header-section-number">4.2.3</span> Xgboost</a></li>
+  <li><a href="#support-vector-machine" id="toc-support-vector-machine" class="nav-link" data-scroll-target="#support-vector-machine"><span class="header-section-number">4.2.4</span> Support Vector Machine</a></li>
+  <li><a href="#ridge-regression" id="toc-ridge-regression" class="nav-link" data-scroll-target="#ridge-regression"><span class="header-section-number">4.2.5</span> Ridge Regression</a></li>
+  <li><a href="#model-selection-based-on-cross-validation" id="toc-model-selection-based-on-cross-validation" class="nav-link" data-scroll-target="#model-selection-based-on-cross-validation"><span class="header-section-number">4.2.6</span> Model Selection Based on Cross-Validation</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -246,120 +241,246 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="baseline-modeling" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="baseline-modeling"><span class="header-section-number">4.2</span> Baseline Modeling</h2>
-<section id="random-forest" class="level3" data-number="4.2.1">
-<h3 data-number="4.2.1" class="anchored" data-anchor-id="random-forest"><span class="header-section-number">4.2.1</span> Random Forest</h3>
+<section id="logistic-regression" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="logistic-regression"><span class="header-section-number">4.2.1</span> Logistic Regression</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>control <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method=</span><span class="st">'cv'</span>,</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">number=</span><span class="dv">5</span>,</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">classProbs=</span>T,</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">summaryFunction =</span> twoClassSummary,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">savePredictions=</span><span class="st">"all"</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>tunegrid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">mtry =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>))</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>rf_gridsearch <span class="ot">&lt;-</span> <span class="fu">train</span>(rec,train,</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>                       <span class="at">method=</span><span class="st">'rf'</span>,</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>                       <span class="at">trControl =</span> control,</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>                       <span class="at">tuneGrid =</span> tunegrid,</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>                       <span class="at">metric =</span><span class="st">"ROC"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>lr_mod <span class="ot">&lt;-</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">logistic_reg</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">'glm'</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>aqara_workflow <span class="ot">&lt;-</span> </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">workflow</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(lr_mod) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(rec)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>aqara_workflow</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>══ Workflow ════════════════════════════════════════════════════════════════════
+Preprocessor: Recipe
+Model: logistic_reg()
+
+── Preprocessor ────────────────────────────────────────────────────────────────
+2 Recipe Steps
+
+• step_normalize()
+• step_dummy()
+
+── Model ───────────────────────────────────────────────────────────────────────
+Logistic Regression Model Specification (classification)
+
+Computational engine: glm </code></pre>
+</div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(rf_gridsearch,<span class="at">newdata=</span>test)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(pred,test<span class="sc">$</span>occupancy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>lr_gridsearch <span class="ot">&lt;-</span> aqara_workflow <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">data =</span> train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>lr_gridsearch <span class="sc">%&gt;%</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull_workflow_fit</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 5
+  term              estimate std.error statistic  p.value
+  &lt;chr&gt;                &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 (Intercept)         -1.04     0.0894    -11.6  4.71e-31
+2 co2                 -0.726    0.0787     -9.22 3.03e-20
+3 temperature         -0.716    0.0710    -10.1  6.63e-24
+4 humidity             0.269    0.0790      3.40 6.77e- 4
+5 door                -3.88     0.446      -8.69 3.54e-18
+6 motion               4.19     0.436       9.60 8.10e-22
+7 hour                -0.310    0.0621     -5.00 5.87e- 7
+8 fp2_non_detection    4.49     0.240      18.7  5.14e-78</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(lr_gridsearch,test) </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> pred<span class="sc">$</span>.pred_class</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(pred,test<span class="sc">$</span>occupancy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Confusion Matrix and Statistics
 
                Reference
 Prediction      detection non_detection
-  detection           423            69
-  non_detection        22           170
+  detection           437            91
+  non_detection         8           148
                                           
-               Accuracy : 0.867           
-                 95% CI : (0.8392, 0.8915)
+               Accuracy : 0.8553          
+                 95% CI : (0.8266, 0.8808)
     No Information Rate : 0.6506          
     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
                                           
-                  Kappa : 0.6934          
+                  Kappa : 0.6538          
                                           
- Mcnemar's Test P-Value : 1.42e-06        
+ Mcnemar's Test P-Value : &lt; 2.2e-16       
                                           
-            Sensitivity : 0.9506          
-            Specificity : 0.7113          
-         Pos Pred Value : 0.8598          
-         Neg Pred Value : 0.8854          
+            Sensitivity : 0.9820          
+            Specificity : 0.6192          
+         Pos Pred Value : 0.8277          
+         Neg Pred Value : 0.9487          
              Prevalence : 0.6506          
-         Detection Rate : 0.6184          
-   Detection Prevalence : 0.7193          
-      Balanced Accuracy : 0.8309          
+         Detection Rate : 0.6389          
+   Detection Prevalence : 0.7719          
+      Balanced Accuracy : 0.8006          
                                           
        'Positive' Class : detection       
                                           </code></pre>
 </div>
 </div>
-</section>
-<section id="xgboost" class="level3" data-number="4.2.2">
-<h3 data-number="4.2.2" class="anchored" data-anchor-id="xgboost"><span class="header-section-number">4.2.2</span> Xgboost</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>control <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method=</span><span class="st">'cv'</span>,</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">number=</span><span class="dv">5</span>,</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">classProbs=</span>T,</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">summaryFunction =</span> twoClassSummary,</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">savePredictions=</span><span class="st">"all"</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>xgb_gridsearch <span class="ot">&lt;-</span> <span class="fu">train</span>(rec,train,</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>                       <span class="at">method=</span><span class="st">'xgbTree'</span>,</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>                       <span class="at">trControl =</span> control,</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>                       <span class="at">tuneLength =</span> <span class="dv">3</span>,</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>                       <span class="at">metric =</span><span class="st">"ROC"</span>,</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>                       <span class="at">verbosity =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>pred_prob <span class="ot">&lt;-</span> <span class="fu">predict</span>(lr_gridsearch,test,<span class="at">type=</span><span class="st">'prob'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(test <span class="sc">%&gt;%</span> <span class="fu">select</span>(occupancy))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>pred_prob </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 684 × 3
+   .pred_detection .pred_non_detection occupancy
+             &lt;dbl&gt;               &lt;dbl&gt; &lt;fct&gt;    
+ 1           0.814               0.186 detection
+ 2           0.806               0.194 detection
+ 3           0.792               0.208 detection
+ 4           0.784               0.216 detection
+ 5           0.776               0.224 detection
+ 6           0.872               0.128 detection
+ 7           0.870               0.130 detection
+ 8           0.865               0.135 detection
+ 9           0.861               0.139 detection
+10           0.857               0.143 detection
+# ℹ 674 more rows</code></pre>
+</div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pred_xgb <span class="ot">&lt;-</span> <span class="fu">predict</span>(xgb_gridsearch,<span class="at">newdata=</span>test)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(pred_xgb,test<span class="sc">$</span>occupancy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>pred_prob <span class="sc">%&gt;%</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_curve</span>(<span class="at">truth=</span>occupancy,.pred_detection) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="modeling_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pred_prob <span class="sc">%&gt;%</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_auc</span>(<span class="at">truth =</span> occupancy, .pred_detection)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 roc_auc binary         0.885</code></pre>
+</div>
+</div>
+</section>
+<section id="random-forest" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="random-forest"><span class="header-section-number">4.2.2</span> Random Forest</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>control <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method=</span><span class="st">'cv'</span>,</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">number=</span><span class="dv">5</span>,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">classProbs=</span>T,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">summaryFunction =</span> twoClassSummary,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">savePredictions=</span><span class="st">"all"</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>tunegrid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">mtry =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>))</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>rf_gridsearch <span class="ot">&lt;-</span> <span class="fu">train</span>(rec,train,</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>                       <span class="at">method=</span><span class="st">'rf'</span>,</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>                       <span class="at">trControl =</span> control,</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>                       <span class="at">tuneGrid =</span> tunegrid,</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>                       <span class="at">metric =</span><span class="st">"ROC"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(rf_gridsearch,<span class="at">newdata=</span>test)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(pred,test<span class="sc">$</span>occupancy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Confusion Matrix and Statistics
 
                Reference
 Prediction      detection non_detection
-  detection           408            59
-  non_detection        37           180
+  detection           421            69
+  non_detection        24           170
+                                         
+               Accuracy : 0.864          
+                 95% CI : (0.836, 0.8888)
+    No Information Rate : 0.6506         
+    P-Value [Acc &gt; NIR] : &lt; 2.2e-16      
+                                         
+                  Kappa : 0.6873         
+                                         
+ Mcnemar's Test P-Value : 5.053e-06      
+                                         
+            Sensitivity : 0.9461         
+            Specificity : 0.7113         
+         Pos Pred Value : 0.8592         
+         Neg Pred Value : 0.8763         
+             Prevalence : 0.6506         
+         Detection Rate : 0.6155         
+   Detection Prevalence : 0.7164         
+      Balanced Accuracy : 0.8287         
+                                         
+       'Positive' Class : detection      
+                                         </code></pre>
+</div>
+</div>
+</section>
+<section id="xgboost" class="level3" data-number="4.2.3">
+<h3 data-number="4.2.3" class="anchored" data-anchor-id="xgboost"><span class="header-section-number">4.2.3</span> Xgboost</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>control <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method=</span><span class="st">'cv'</span>,</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">number=</span><span class="dv">5</span>,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">classProbs=</span>T,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">summaryFunction =</span> twoClassSummary,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">savePredictions=</span><span class="st">"all"</span>)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>xgb_gridsearch <span class="ot">&lt;-</span> <span class="fu">train</span>(rec,train,</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>                       <span class="at">method=</span><span class="st">'xgbTree'</span>,</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>                       <span class="at">trControl =</span> control,</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>                       <span class="at">tuneLength =</span> <span class="dv">3</span>,</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>                       <span class="at">metric =</span><span class="st">"ROC"</span>,</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>                       <span class="at">verbosity =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>pred_xgb <span class="ot">&lt;-</span> <span class="fu">predict</span>(xgb_gridsearch,<span class="at">newdata=</span>test)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(pred_xgb,test<span class="sc">$</span>occupancy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Confusion Matrix and Statistics
+
+               Reference
+Prediction      detection non_detection
+  detection           425            70
+  non_detection        20           169
                                           
-               Accuracy : 0.8596          
-                 95% CI : (0.8313, 0.8848)
+               Accuracy : 0.8684          
+                 95% CI : (0.8408, 0.8929)
     No Information Rate : 0.6506          
-    P-Value [Acc &gt; NIR] : &lt; 2e-16         
+    P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
                                           
-                  Kappa : 0.6846          
+                  Kappa : 0.6959          
                                           
- Mcnemar's Test P-Value : 0.03209         
+ Mcnemar's Test P-Value : 2.404e-07       
                                           
-            Sensitivity : 0.9169          
-            Specificity : 0.7531          
-         Pos Pred Value : 0.8737          
-         Neg Pred Value : 0.8295          
+            Sensitivity : 0.9551          
+            Specificity : 0.7071          
+         Pos Pred Value : 0.8586          
+         Neg Pred Value : 0.8942          
              Prevalence : 0.6506          
-         Detection Rate : 0.5965          
-   Detection Prevalence : 0.6827          
-      Balanced Accuracy : 0.8350          
+         Detection Rate : 0.6213          
+   Detection Prevalence : 0.7237          
+      Balanced Accuracy : 0.8311          
                                           
        'Positive' Class : detection       
                                           </code></pre>
 </div>
 </div>
 </section>
-<section id="support-vector-machine" class="level3" data-number="4.2.3">
-<h3 data-number="4.2.3" class="anchored" data-anchor-id="support-vector-machine"><span class="header-section-number">4.2.3</span> Support Vector Machine</h3>
+<section id="support-vector-machine" class="level3" data-number="4.2.4">
+<h3 data-number="4.2.4" class="anchored" data-anchor-id="support-vector-machine"><span class="header-section-number">4.2.4</span> Support Vector Machine</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>svm_gridsearch <span class="ot">&lt;-</span> <span class="fu">train</span>(rec,train,</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">method =</span> <span class="st">"svmPoly"</span>,</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">trControl =</span> control,</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">tuneLength =</span> <span class="dv">2</span>,</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">metric=</span><span class="st">"ROC"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>svm_gridsearch <span class="ot">&lt;-</span> <span class="fu">train</span>(rec,train,</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">method =</span> <span class="st">"svmPoly"</span>,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">trControl =</span> control,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">tuneLength =</span> <span class="dv">2</span>,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">metric=</span><span class="st">"ROC"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>pred_svm <span class="ot">&lt;-</span> <span class="fu">predict</span>(svm_gridsearch,<span class="at">newdata=</span>test)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(pred_svm,test<span class="sc">$</span>occupancy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>pred_svm <span class="ot">&lt;-</span> <span class="fu">predict</span>(svm_gridsearch,<span class="at">newdata=</span>test)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(pred_svm,test<span class="sc">$</span>occupancy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Confusion Matrix and Statistics
 
@@ -391,20 +512,20 @@ Prediction      detection non_detection
 </div>
 </div>
 </section>
-<section id="ridge-regression" class="level3" data-number="4.2.4">
-<h3 data-number="4.2.4" class="anchored" data-anchor-id="ridge-regression"><span class="header-section-number">4.2.4</span> Ridge Regression</h3>
+<section id="ridge-regression" class="level3" data-number="4.2.5">
+<h3 data-number="4.2.5" class="anchored" data-anchor-id="ridge-regression"><span class="header-section-number">4.2.5</span> Ridge Regression</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>lambda <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">length=</span><span class="dv">11</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>ridge_grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">alpha=</span><span class="dv">0</span>,<span class="at">lambda=</span>lambda)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>ridge_gridsearch <span class="ot">&lt;-</span> <span class="fu">train</span>(rec,train,</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">method=</span><span class="st">"glmnet"</span>,</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">trControl =</span> control,</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                       <span class="at">tuneGrid =</span> ridge_grid,</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">metric =</span> <span class="st">"ROC"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>lambda <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">length=</span><span class="dv">11</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>ridge_grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">alpha=</span><span class="dv">0</span>,<span class="at">lambda=</span>lambda)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>ridge_gridsearch <span class="ot">&lt;-</span> <span class="fu">train</span>(rec,train,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">method=</span><span class="st">"glmnet"</span>,</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">trControl =</span> control,</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>                       <span class="at">tuneGrid =</span> ridge_grid,</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">metric =</span> <span class="st">"ROC"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pred_ridge <span class="ot">&lt;-</span> <span class="fu">predict</span>(ridge_gridsearch,<span class="at">newdata=</span>test)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(pred_ridge,test<span class="sc">$</span>occupancy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>pred_ridge <span class="ot">&lt;-</span> <span class="fu">predict</span>(ridge_gridsearch,<span class="at">newdata=</span>test)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(pred_ridge,test<span class="sc">$</span>occupancy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Confusion Matrix and Statistics
 
@@ -436,15 +557,16 @@ Prediction      detection non_detection
 </div>
 </div>
 </section>
-<section id="model-selection-based-on-cross-validation" class="level3" data-number="4.2.5">
-<h3 data-number="4.2.5" class="anchored" data-anchor-id="model-selection-based-on-cross-validation"><span class="header-section-number">4.2.5</span> Model Selection Based on Cross-Validation</h3>
+<section id="model-selection-based-on-cross-validation" class="level3" data-number="4.2.6">
+<h3 data-number="4.2.6" class="anchored" data-anchor-id="model-selection-based-on-cross-validation"><span class="header-section-number">4.2.6</span> Model Selection Based on Cross-Validation</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>resamps <span class="ot">&lt;-</span> <span class="fu">resamples</span>(<span class="fu">list</span>(<span class="at">random_forest =</span> rf_gridsearch,</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">xgb =</span> xgb_gridsearch,</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">svm =</span> svm_gridsearch,</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">ridge =</span> ridge_gridsearch</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>                          ))</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(resamps)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>resamps <span class="ot">&lt;-</span> <span class="fu">resamples</span>(<span class="fu">list</span>(</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">random_forest =</span> rf_gridsearch,</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">xgb =</span> xgb_gridsearch,</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">svm =</span> svm_gridsearch,</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">ridge =</span> ridge_gridsearch</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>                          ))</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(resamps)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -455,30 +577,30 @@ Number of resamples: 5
 
 ROC 
                    Min.   1st Qu.    Median      Mean   3rd Qu.      Max. NA's
-random_forest 0.9798541 0.9843303 0.9863155 0.9860093 0.9877158 0.9918306    0
-xgb           0.9828694 0.9844440 0.9844641 0.9845653 0.9845243 0.9865248    0
-svm           0.9189348 0.9261608 0.9370935 0.9392757 0.9525809 0.9616085    0
-ridge         0.9144803 0.9209153 0.9322896 0.9297099 0.9352067 0.9456577    0
+random_forest 0.9807164 0.9832597 0.9851331 0.9858703 0.9868192 0.9934230    0
+xgb           0.9788900 0.9825104 0.9838686 0.9837989 0.9866988 0.9870266    0
+svm           0.9207815 0.9389803 0.9408136 0.9408004 0.9465952 0.9568313    0
+ridge         0.9166600 0.9250653 0.9256256 0.9296324 0.9395022 0.9413087    0
 
 Sens 
                    Min.   1st Qu.    Median      Mean   3rd Qu.      Max. NA's
-random_forest 0.9503546 0.9539007 0.9609929 0.9638298 0.9645390 0.9893617    0
-xgb           0.9503546 0.9503546 0.9574468 0.9567376 0.9609929 0.9645390    0
-svm           0.9680851 0.9787234 0.9822695 0.9815603 0.9893617 0.9893617    0
-ridge         0.9361702 0.9468085 0.9503546 0.9539007 0.9680851 0.9680851    0
+random_forest 0.9361702 0.9539007 0.9716312 0.9617021 0.9716312 0.9751773    0
+xgb           0.9361702 0.9397163 0.9432624 0.9560284 0.9716312 0.9893617    0
+svm           0.9751773 0.9822695 0.9822695 0.9815603 0.9822695 0.9858156    0
+ridge         0.9326241 0.9503546 0.9503546 0.9567376 0.9609929 0.9893617    0
 
 Spec 
                    Min.   1st Qu.    Median      Mean   3rd Qu.      Max. NA's
-random_forest 0.8984962 0.9245283 0.9320755 0.9246049 0.9320755 0.9358491    0
-xgb           0.9132075 0.9283019 0.9358491 0.9321180 0.9396226 0.9436090    0
-svm           0.7018868 0.7207547 0.7293233 0.7285062 0.7396226 0.7509434    0
-ridge         0.7584906 0.7773585 0.7819549 0.7843155 0.8000000 0.8037736    0</code></pre>
+random_forest 0.8947368 0.9169811 0.9245283 0.9238530 0.9396226 0.9433962    0
+xgb           0.9169811 0.9320755 0.9358491 0.9328756 0.9396226 0.9398496    0
+svm           0.6830189 0.7207547 0.7358491 0.7284806 0.7396226 0.7631579    0
+ridge         0.7471698 0.7773585 0.7781955 0.7850731 0.7849057 0.8377358    0</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bwplot</span>(resamps,<span class="at">metric=</span><span class="st">"ROC"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bwplot</span>(resamps,<span class="at">metric=</span><span class="st">"ROC"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="modeling_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+<p><img src="modeling_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Argument: ROC를 기반으로 판단해 보면, randomForest와 XGB가 가장 우수하나, randomForest가 상대적으로 분산이 작고, 성능도 약간 우수한 편이므로 randomForest를 최종 모델로 선택한 것이 바람직 하다.</p>
