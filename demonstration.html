@@ -283,7 +283,7 @@ alter user 'root'@'localhost' identified by 'password'</code></pre>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"integrated_0526_0622.csv"</span>)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="16">
+<div class="cell-output cell-output-display" data-execution_count="2">
 <div>
 
 
@@ -372,7 +372,7 @@ alter user 'root'@'localhost' identified by 'password'</code></pre>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'user_id'</span>] <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.loc[:,[<span class="st">'id'</span>,<span class="st">'account'</span>,<span class="st">'timestamp'</span>,<span class="st">'co2'</span>,<span class="st">'temperature'</span>,<span class="st">'humidity'</span>,<span class="st">'door'</span>,<span class="st">'motion'</span>,<span class="st">'fp2'</span>,<span class="st">'occupancy'</span>,<span class="st">'user_id'</span>]]</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="17">
+<div class="cell-output cell-output-display" data-execution_count="3">
 <div>
 
 
@@ -431,7 +431,7 @@ alter user 'root'@'localhost' identified by 'password'</code></pre>
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df.to_csv(<span class="st">"iot.csv"</span>,index<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="18">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <div>
 
 
@@ -531,12 +531,12 @@ set foreign_key_checks=1  # revert to the original setting
 <span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.head())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;Response [200]&gt;
-data is [{'id': 1719, 'account': 'ariwells2001@gmail.com', 'timestamp': '2023-06-13T12:38:00Z', 'co2': 572.0, 'temperature': 2441.0, 'humidity': 5262.0, 'door': 5492992.0, 'motion': 5499072.0, 'fp2': 0.0, 'occupancy': 0.0, 'user': 1}] and status is &lt;Response [200]&gt;
-     id                 account             timestamp    co2  temperature  \
-0  1719  ariwells2001@gmail.com  2023-06-13T12:38:00Z  572.0       2441.0   
+data is [{'id': 2442, 'account': 'ariwells2001@gmail.com', 'timestamp': '2023-06-14T16:41:00Z', 'co2': 1188.0, 'temperature': 2478.0, 'humidity': 4838.0, 'door': 3384500.0, 'motion': 3389911.0, 'fp2': 1.0, 'occupancy': 1.0, 'user': 1}] and status is &lt;Response [200]&gt;
+     id                 account             timestamp     co2  temperature  \
+0  2442  ariwells2001@gmail.com  2023-06-14T16:41:00Z  1188.0       2478.0   
 
    humidity       door     motion  fp2  occupancy  user  
-0    5262.0  5492992.0  5499072.0  0.0        0.0     1  </code></pre>
+0    4838.0  3384500.0  3389911.0  1.0        1.0     1  </code></pre>
 </div>
 </div>
 </section>
@@ -595,7 +595,7 @@ Data columns (total 10 columns):
 dtypes: float64(7), int64(1), object(2)
 memory usage: 335.2+ KB</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="20">
+<div class="cell-output cell-output-display" data-execution_count="6">
 <div>
 
 
@@ -658,7 +658,7 @@ memory usage: 335.2+ KB</code></pre>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">'temperature'</span>,<span class="st">'humidity'</span>]] <span class="op">=</span> df[[<span class="st">'temperature'</span>,<span class="st">'humidity'</span>]]<span class="op">/</span><span class="dv">100</span></span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[[<span class="st">'timestamp'</span>,<span class="st">'co2'</span>,<span class="st">'temperature'</span>,<span class="st">'humidity'</span>,<span class="st">'door'</span>,<span class="st">'motion'</span>,<span class="st">'fp2'</span>,<span class="st">'occupancy'</span>]]</span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="21">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <div>
 
 
@@ -743,6 +743,9 @@ memory usage: 335.2+ KB</code></pre>
 </section>
 <section id="aqarai-protype" class="level2" data-number="7.3">
 <h2 data-number="7.3" class="anchored" data-anchor-id="aqarai-protype"><span class="header-section-number">7.3</span> AqarAI Protype</h2>
+<ul>
+<li>Backend API Server로 부터 발급 받은 access token을 먼저 입력해야 함</li>
+</ul>
 <section id="기본-eda-기능" class="level3" data-number="7.3.1">
 <h3 data-number="7.3.1" class="anchored" data-anchor-id="기본-eda-기능"><span class="header-section-number">7.3.1</span> 기본 EDA 기능</h3>
 <p><img src="images/스크린샷 2023-11-22 오후 9.02.58.png" class="img-fluid"></p>
